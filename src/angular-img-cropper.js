@@ -10,11 +10,13 @@ angular.module('angular-img-cropper', []).directive("imageCropper", ['$document'
             cropAreaBounds: "=",
             minWidth: "=",
             minHeight: "=",
-            color: "@"
+            color: "@",
+            arrowScale: "@"
         },
         restrict: "A",
         link: function (scope, element, attrs) {
             var crop;
+            scope.arrowScale = scope.arrowScale || 1;
             scope.color = scope.color || 'rgba(255, 228, 0, 1)';
             var __extends = __extends || function (d, b) {
                     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -108,11 +110,11 @@ angular.module('angular-img-cropper', []).directive("imageCropper", ['$document'
             var DragMarker = (function (_super) {
                 __extends(DragMarker, _super);
                 function DragMarker(x, y, radius) {
-                    _super.call(this, x, y, radius);
+                    _super.call(this, x, y, scope.arrowScale * radius);
                     this.iconPoints = new Array();
                     this.scaledIconPoints = new Array();
-                    this.getDragIconPoints(this.iconPoints, 1);
-                    this.getDragIconPoints(this.scaledIconPoints, 1.2);
+                    this.getDragIconPoints(this.iconPoints, scope.arrowScale);
+                    this.getDragIconPoints(this.scaledIconPoints, 1.2 * scope.arrowScale);
                 }
 
                 DragMarker.prototype.draw = function (ctx) {
